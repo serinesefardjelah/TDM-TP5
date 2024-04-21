@@ -20,7 +20,7 @@ class Converters {
     }
 }
 
-@Database(entities = [Reservation::class], version = 3)
+@Database(entities = [Reservation::class], version = 4)
 @TypeConverters(Converters::class)
     abstract class ReservationDataBase: RoomDatabase() {
         abstract fun getReservationDao(): ReservationDao

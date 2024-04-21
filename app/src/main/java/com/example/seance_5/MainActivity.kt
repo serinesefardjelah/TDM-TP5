@@ -10,10 +10,13 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -23,6 +26,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -162,21 +166,50 @@ fun DisplayReservations(reservations: List<Reservation>) {
         contentPadding = PaddingValues(16.dp)
     ) {
         items(reservations) { reservation ->
-            ReservationItem(reservation = reservation)
+            ReservationCard(reservation = reservation)
+            Spacer(modifier = Modifier.height(16.dp)) // Add some space between cards
         }
     }
 }
 
+
 @Composable
-fun ReservationItem(reservation: Reservation) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically
+fun ReservationCard(reservation: Reservation) {
+    Column(
+     modifier = Modifier.fillMaxWidth()
     ) {
-        Text(text = reservation.reservationId.toString())
-        Spacer(modifier = Modifier.width(16.dp))
-        Text(text = reservation.title)
-        Spacer(modifier = Modifier.width(16.dp))
-        Text(text = reservation.entry_date.toString())
+        Column(
+            modifier = Modifier.padding(16.dp)
+        ) {
+            Text(
+                text = "Title: ${reservation.title}",
+                color = Color.White
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = "Entry Date: ${reservation.entry_date?.toString() ?: "N/A"}",
+                color = Color.White
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = "Exit Date: ${reservation.exit_date?.toString() ?: "N/A"}",
+                color = Color.White
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = "Place: ${reservation.place}",
+                color = Color.White
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = "Price: ${reservation.price}",
+                color = Color.White
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = "QR Code: ${reservation.qrCode}",
+                color = Color.White
+            )
+        }
     }
 }
