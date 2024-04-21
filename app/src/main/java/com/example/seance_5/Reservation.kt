@@ -7,8 +7,7 @@ import java.util.Date
 
 @Entity(tableName = "Reservations")
 data class Reservation(
-//    @PrimaryKey(autoGenerate = true)
-    @PrimaryKey
+   @PrimaryKey(autoGenerate = true)
     var reservationId: Int = 0,
     @ColumnInfo(name = "title")
     var title: String,

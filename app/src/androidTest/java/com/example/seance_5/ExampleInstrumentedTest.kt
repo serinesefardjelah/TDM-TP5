@@ -50,8 +50,23 @@ class ExampleInstrumentedTest {
     }
     @Test
     fun testGetReservationByDate() {
-        var res1 = Reservation(1, "title", Date(),   Date(), "place", 100.0, "qrCode")
-        var res2 = Reservation(2, "title2", Date(),     Date(), "place2", 200.0, "qrCode2")
+        var res1 = Reservation(
+            title = "title",
+            entry_date = Date(),
+            exit_date = Date(),
+            place = "place",
+            price = 100.0,
+            qrCode = "qrCode"
+        )
+        var res2 = Reservation(
+            title = "title2",
+            entry_date = Date(Date().time + 1000),
+            exit_date = Date(),
+            place = "place2",
+            price = 200.0,
+            qrCode = "qrCode2"
+        )
+
         myDataBase.getReservationDao().addReservation(res1)
         myDataBase.getReservationDao().addReservation(res2)
         val res = myDataBase.getReservationDao().getReservationByDate(res1.entry_date!!)
