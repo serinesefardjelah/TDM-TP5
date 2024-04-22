@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
@@ -25,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import com.lightspark.composeqr.QrCodeView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -37,15 +39,11 @@ import kotlin.random.Random
 
 @Composable
 fun DisplayReservation(reservationModel: ReservationModel){
-    val count = remember {
-        mutableStateOf(0)
-    }
+
     val loading = remember {
         mutableStateOf(false)
     }
-    val reservations = remember {
-        mutableStateOf(listOf<Reservation>())
-    }
+
     Column (
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -74,16 +72,16 @@ fun DisplayReservation(reservationModel: ReservationModel){
 
         Button(onClick ={
             CoroutineScope(Dispatchers.IO).launch {
-                count.value=reservationModel.getReservationCount()
-                reservations.value = reservationModel.getAllReservations()
+                reservationModel.getReservationCount()
+                 reservationModel.getAllReservations()
 
             }
         } ) {
             Text(text = "Get")
         }
-        Text(text = count.value.toString())
+        Text(text = reservationModel.count.value.toString())
         Text(text = "Reservations")
-        DisplayReservations(reservations = reservations.value)
+        DisplayReservations(reservations = reservationModel.allReservations.value)
 //
 //        reservations.value.forEach {
 //            Display(it)
@@ -127,6 +125,7 @@ fun ReservationCard(reservation: Reservation) {
         Column(
             modifier = Modifier.padding(16.dp)
         ) {
+            QrCodePreview(data = reservation.qrCode)
             Text(
                 text = "Title: ${reservation.title}",
                 color = Color.White
@@ -244,4 +243,11 @@ private fun parseDate(text: String): Date? {
     } catch (e: Exception) {
         null
     }
+}
+@Composable
+fun QrCodePreview(data: String) {
+    QrCodeView(
+        data = data,
+        modifier = Modifier.size(300.dp)
+    )
 }

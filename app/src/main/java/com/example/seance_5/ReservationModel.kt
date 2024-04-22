@@ -1,6 +1,7 @@
 package com.example.seance_5
 
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -10,8 +11,10 @@ import kotlinx.coroutines.withContext
 import java.util.Date
 
 class ReservationModel(private val ReservationRepository: ReservationRepository) : ViewModel(){
+ val count = mutableStateOf(0)
+
  var allReservations = mutableStateOf(listOf<Reservation>())
- fun getAllReservations(): List<Reservation>{
+ fun getAllReservations(){
   viewModelScope.launch{
    withContext(Dispatchers.IO){
     allReservations.value =  ReservationRepository.getAllReservation()
@@ -19,7 +22,6 @@ class ReservationModel(private val ReservationRepository: ReservationRepository)
    }
 
   }
-  return allReservations.value
 
  }
  fun addReservation(res: Reservation){
@@ -30,14 +32,12 @@ class ReservationModel(private val ReservationRepository: ReservationRepository)
   }
  }
 
- fun getReservationCount():Int{
-  var count = 0
+ fun getReservationCount(){
   viewModelScope.launch{
    withContext(Dispatchers.IO){
-    count = ReservationRepository.getReservationCount()
+    count.value = ReservationRepository.getReservationCount()
    }
   }
-  return count
  }
 
  fun getReservationByDate(date: Date):Reservation{

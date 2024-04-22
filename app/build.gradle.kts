@@ -72,5 +72,8 @@ dependencies {
     ksp(libs.androidx.room.compiler)
     implementation (libs.androidx.room.ktx)
     testImplementation (libs.androidx.room.testing)
+    implementation (libs.core)
+    implementation(libs.compose.qr.code)
+
 
 }
